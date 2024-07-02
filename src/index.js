@@ -1,7 +1,6 @@
 const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
-// TODO: Add the missing query selectors:
 const score = document.querySelector('#score');
 const timerDisplay= document.querySelector('#timer');
 
@@ -10,6 +9,20 @@ let timer;
 let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
+
+
+const audioHit = new Audio("https://github.com/gabrielsanchez/erddiagram/blob/main/hit.mp3?raw=true");
+const song = new Audio("https://github.com/gabrielsanchez/erddiagram/blob/main/molesong.mp3?raw=true");
+
+function stopMusic() {
+  song.pause();
+}
+
+function playMusic() {
+  song.play();
+  song.loop = true;
+}
+
 
 /**
  * Generates a random integer within a range.
@@ -161,7 +174,7 @@ function toggleVisibility(hole){
 *
 */
 function updateScore() {
-  ++points;
+  points++;
   score.textContent = points;
   return points;
 }
@@ -185,9 +198,10 @@ function clearScore() {
 *
 */
 function updateTimer() {
-  // TODO: Write your code here.
-  // hint: this code is provided to you in the instructions.
-  
+  if (time > 0){
+    time -= 1;
+    timerDisplay.textContent = time;
+  }
   return time;
 }
 
@@ -198,8 +212,7 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
 
@@ -213,6 +226,7 @@ function startTimer() {
 */
 function whack(event) {
   updateScore();
+  playAudio(audioHit);
   return points;
 }
 
@@ -244,8 +258,8 @@ function setDuration(duration) {
 *
 */
 function stopGame(){
-  // stopAudio(song);  //optional
   clearInterval(timer);
+  stopMusic();
   return "game stopped";
 }
 
@@ -256,8 +270,11 @@ function stopGame(){
 *
 */
 function startGame(){
+  playMusic();
+  setEventListeners();
   setDuration(10);
   showUp();
+  startTimer();
   return "game started";
 }
 
