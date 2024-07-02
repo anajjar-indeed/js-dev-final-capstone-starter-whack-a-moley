@@ -54,9 +54,9 @@ function randomInteger(min, max) {
  */
 function setDelay(difficulty) {
   if(difficulty === "normal") {
-    return 1500;
-  } else if(difficulty === "easy") {
     return 1000;
+  } else if(difficulty === "easy") {
+    return 1500;
   } else if(difficulty === "hard") {
     return randomInteger(600, 1200);
   }
@@ -174,8 +174,7 @@ function toggleVisibility(hole){
 *
 */
 function updateScore() {
-  points++;
-  score.textContent = points;
+  score.textContent = ++points;
   return points;
 }
 
@@ -225,10 +224,10 @@ function startTimer() {
 *
 */
 function whack(event) {
-  updateScore();
-  playAudio(audioHit);
-  return points;
+  audioHit.play();
+  return updateScore();
 }
+
 
 /**
 *
@@ -248,6 +247,7 @@ function setEventListeners(){
 */
 function setDuration(duration) {
   time = duration;
+  clearScore();
   return time;
 }
 
