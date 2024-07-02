@@ -89,17 +89,15 @@ function chooseHole(holes) {
 * return the timeoutId if the game continues or the string "game stopped"
 * if the game is over.
 *
-*  // if time > 0:
-*  //   timeoutId = showUp()
-*  //   return timeoutId
-*  // else
-*  //   gameStopped = stopGame()
-*  //   return gameStopped
-*
 */
 function gameOver() {
-  // TODO: Write your code here
-  
+  if(time > 0){
+    let timeOutId = showUp();
+    return timeOutId;
+  }else{
+    let gameStopped = stopGame();
+    return gameStopped;
+  }
 }
 
 /**
@@ -112,8 +110,8 @@ function gameOver() {
 *
 */
 function showUp() {
-  let delay = 0; // TODO: Update so that it uses setDelay()
-  const hole = 0;  // TODO: Update so that it use chooseHole()
+  let delay =  setDelay(difficulty);
+  const hole = chooseHole(holes);
   return showAndHide(hole, delay);
 }
 
@@ -126,13 +124,13 @@ function showUp() {
 *
 */
 function showAndHide(hole, delay){
-  // TODO: call the toggleVisibility function so that it adds the 'show' class.
-  
+  // call toggleVisibility to first show the mole
+  toggleVisibility(hole);
   const timeoutID = setTimeout(() => {
-    // TODO: call the toggleVisibility function so that it removes the 'show' class when the timer times out.
-    
+    // call toggleVisibility to remove mole when timer runs out.
+    toggleVisibility(hole);
     gameOver();
-  }, 0); // TODO: change the setTimeout delay to the one provided as a parameter
+  }, delay);
   return timeoutID;
 }
 
@@ -143,9 +141,13 @@ function showAndHide(hole, delay){
 *
 */
 function toggleVisibility(hole){
-  // TODO: add hole.classList.toggle so that it adds or removes the 'show' class.
-  
-  return hole;
+  if (!hole) {
+    console.error("Incorrect element passed to toggleVisibility");
+    return null;
+  }else{
+    hole.classList.toggle("show");
+    return hole;
+  }
 }
 
 /**
@@ -257,8 +259,8 @@ function stopGame(){
 *
 */
 function startGame(){
-  //setDuration(10);
-  //showUp();
+  setDuration(10);
+  showUp();
   return "game started";
 }
 
